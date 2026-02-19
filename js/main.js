@@ -296,10 +296,8 @@ const demoConfig = {
     },
     'route-optimizer': {
         title: 'Route Optimizer Demo',
-        url: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d185368.2!2d-116.4!3d43.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54ae5693!2sNampa%2C%20ID!5e0!3m2!1sen!2sus!4v1600000000000!5m2!1sen!2sus',
-        sandbox: 'allow-scripts allow-same-origin',
-        placeholder: true, // Indicates this needs a real demo build later
-        message: 'Interactive demo coming soon! For now, explore the map view.'
+        url: 'demos/route-optimizer/index.html',
+        sandbox: 'allow-scripts allow-same-origin allow-popups'
     },
     'stauffer': {
         title: 'Stauffer Landscaping Demo',

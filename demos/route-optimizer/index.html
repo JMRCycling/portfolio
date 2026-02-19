@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Optimizer Demo | Mason Tuft</title>
+    <meta name="description" content="Interactive demo of the Route Optimizer tool - optimizes service routes using nearest-neighbor algorithm">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="demo-container">
+        <!-- Header -->
+        <header class="demo-header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🗺️</span>
+                    <div>
+                        <h1>Route Optimizer</h1>
+                        <p class="tagline">Nearest-neighbor algorithm for service routes</p>
+                    </div>
+                </div>
+                <a href="../../index.html#projects" class="back-link">← Back to Portfolio</a>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="demo-main">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="panel">
+                    <h2>📍 Service Stops</h2>
+                    <p class="panel-description">Sample addresses in the Boise/Nampa area. Click "Optimize Route" to see the algorithm in action.</p>
+                    
+                    <div class="address-list" id="address-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                    
+                    <div class="controls">
+                        <button class="btn btn-primary" id="optimize-btn">
+                            <span class="btn-icon">⚡</span>
+                            Optimize Route
+                        </button>
+                        <button class="btn btn-secondary" id="reset-btn">
+                            <span class="btn-icon">↺</span>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="panel results-panel" id="results-panel">
+                    <h2>📊 Optimized Schedule</h2>
+                    <div class="stats" id="stats">
+                        <!-- Populated after optimization -->
+                    </div>
+                    <div class="schedule" id="schedule">
+                        <!-- Populated after optimization -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Map -->
+            <div class="map-container">
+                <div id="map"></div>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <span class="legend-marker home"></span>
+                        <span>Home Base (Start)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-marker stop"></span>
+                        <span>Service Stop</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-line"></span>
+                        <span>Optimized Route</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Algorithm Info -->
+        <footer class="demo-footer">
+            <div class="algorithm-info">
+                <h3>How It Works</h3>
+                <div class="algorithm-steps">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <div>
+                            <strong>Geocoding</strong>
+                            <p>Convert addresses to coordinates (pre-computed for demo)</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <div>
+                            <strong>Distance Matrix</strong>
+                            <p>Calculate distances using Haversine formula</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <div>
+                            <strong>Nearest Neighbor</strong>
+                            <p>Greedily select closest unvisited stop</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        <div>
+                            <strong>Schedule</strong>
+                            <p>Generate arrival times with 15-min service windows</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <script src="sample-data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
