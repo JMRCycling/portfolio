@@ -283,3 +283,108 @@ if ('IntersectionObserver' in window) {
 console.log('%c Welcome to my portfolio! 🚀', 'color: #6366f1; font-size: 24px; font-weight: bold;');
 console.log('%c Built with vanilla HTML, CSS, and JavaScript', 'color: #8b5cf6; font-size: 14px;');
 console.log('%c Check out my projects at https://jmrcycling.com', 'color: #a855f7; font-size: 14px;');
+
+// ========================================
+// Demo Modal System
+// ========================================
+
+const demoConfig = {
+    'kor-website': {
+        title: 'KOR Website Demo',
+        url: 'https://jmrcycling.com',
+        sandbox: 'allow-scripts allow-same-origin allow-popups allow-forms'
+    },
+    'route-optimizer': {
+        title: 'Route Optimizer Demo',
+        url: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d185368.2!2d-116.4!3d43.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54ae5693!2sNampa%2C%20ID!5e0!3m2!1sen!2sus!4v1600000000000!5m2!1sen!2sus',
+        sandbox: 'allow-scripts allow-same-origin',
+        placeholder: true, // Indicates this needs a real demo build later
+        message: 'Interactive demo coming soon! For now, explore the map view.'
+    },
+    'stauffer': {
+        title: 'Stauffer Landscaping Demo',
+        url: 'https://jmrcycling.github.io/StaufferLandscaping/',
+        sandbox: 'allow-scripts allow-same-origin allow-popups allow-forms'
+    }
+};
+
+const demoModal = document.getElementById('demo-modal');
+const demoModalBackdrop = document.getElementById('demo-modal-backdrop');
+const demoModalClose = document.getElementById('demo-modal-close');
+const demoModalTitle = document.getElementById('demo-modal-title');
+const demoModalBody = document.getElementById('demo-modal-body');
+const demoLoading = document.getElementById('demo-loading');
+
+function openDemoModal(demoId) {
+    const config = demoConfig[demoId];
+    if (!config) {
+        console.warn(`Demo config not found for: ${demoId}`);
+        return;
+    }
+    
+    // Update title
+    demoModalTitle.textContent = config.title;
+    
+    // Show loading
+    demoLoading.classList.remove('hidden');
+    
+    // Remove any existing iframe
+    const existingIframe = demoModalBody.querySelector('iframe');
+    if (existingIframe) {
+        existingIframe.remove();
+    }
+    
+    // Create and inject iframe
+    const iframe = document.createElement('iframe');
+    iframe.src = config.url;
+    iframe.setAttribute('loading', 'lazy');
+    iframe.setAttribute('sandbox', config.sandbox);
+    iframe.setAttribute('title', config.title);
+    
+    // Hide loading when iframe loads
+    iframe.addEventListener('load', () => {
+        demoLoading.classList.add('hidden');
+    });
+    
+    demoModalBody.appendChild(iframe);
+    
+    // Show modal
+    demoModal.classList.add('active');
+    document.body.classList.add('modal-open');
+    
+    // Focus close button for accessibility
+    demoModalClose.focus();
+}
+
+function closeDemoModal() {
+    demoModal.classList.remove('active');
+    document.body.classList.remove('modal-open');
+    
+    // Remove iframe after animation
+    setTimeout(() => {
+        const iframe = demoModalBody.querySelector('iframe');
+        if (iframe) {
+            iframe.remove();
+        }
+        demoLoading.classList.remove('hidden');
+    }, 300);
+}
+
+// Event listeners for demo buttons
+document.querySelectorAll('.demo-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const demoId = btn.dataset.demo;
+        openDemoModal(demoId);
+    });
+});
+
+// Close modal events
+demoModalClose.addEventListener('click', closeDemoModal);
+demoModalBackdrop.addEventListener('click', closeDemoModal);
+
+// Update existing Escape key handler to also close demo modal
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && demoModal.classList.contains('active')) {
+        closeDemoModal();
+    }
+});
